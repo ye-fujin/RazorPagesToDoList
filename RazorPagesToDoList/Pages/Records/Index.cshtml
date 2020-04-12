@@ -8,16 +8,24 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Record[0].Title)
+                <a asp-page="./Index" asp-route-sortOrder="@Model.TitleSort">
+                    @Html.DisplayNameFor(model => model.Record[0].Title)
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Record[0].CreatedDate)
+                <a asp-page="./Index" asp-route-sortOrder="@Model.CreatedDateSort">
+                    @Html.DisplayNameFor(model => model.Record[0].CreatedDate)
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Record[0].EditedDate)
+                <a asp-page="./Index" asp-route-sortOrder="@Model.EditedDateSort">
+                    @Html.DisplayNameFor(model => model.Record[0].EditedDate)
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Record[0].IsDone)
+                <a asp-page="./Index" asp-route-sortOrder="@Model.IsDoneSort">
+                    @Html.DisplayNameFor(model => model.Record[0].IsDone)
+                </a>
             </th>
             <th></th>
         </tr>
