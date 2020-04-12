@@ -1,0 +1,43 @@
+@page
+@model RazorPagesToDoList.Pages.Records.CreateModel
+
+<h4>Record</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Record.Title" class="control-label"></label>
+                <input asp-for="Record.Title" class="form-control" />
+                <span asp-validation-for="Record.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Record.CreatedDate" class="control-label"></label>
+                <input asp-for="Record.CreatedDate" class="form-control" />
+                <span asp-validation-for="Record.CreatedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Record.EditedDate" class="control-label"></label>
+                <input asp-for="Record.EditedDate" class="form-control" />
+                <span asp-validation-for="Record.EditedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Record.IsDone" /> @Html.DisplayNameFor(model => model.Record.IsDone)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
