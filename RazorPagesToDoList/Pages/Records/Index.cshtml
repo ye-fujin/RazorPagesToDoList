@@ -1,6 +1,11 @@
 @page
 @model RazorPagesToDoList.Pages.Records.IndexModel
 
+<nav class="navbar justify-content-end">
+    <form class="form-inline my-2 my-lg-0" method="post">
+        <button class="btn btn-outline-primary my-2 my-sm-0" asp-page-handler="ExportAsExcel">Export as Excel</button>
+    </form>
+</nav>
 <p>
     <a asp-page="Create">Create New</a>
 </p>
