@@ -2,60 +2,106 @@
 @model RazorPagesToDoList.Pages.Records.IndexModel
 
 <nav class="navbar justify-content-end">
-    <form class="form-inline my-2 my-lg-0" method="post">
-        <button class="btn btn-outline-primary my-2 my-sm-0" asp-page-handler="ExportAsExcel">Export as Excel</button>
+    <form class="form-inline my-2 my-lg-0" method="post" enctype="multipart/form-data">
+        <div class="input-group">
+            <input asp-for="FileUpload.FormFile" type="file" class="form-control" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" aria-label="Choose an excel file" aria-describedby="Choose an excel file">
+            <div class="input-group-append">
+                <button class="btn btn-outline-primary" asp-page-handler="ImportExcel">Import Excel</button>
+            </div>
+        </div>
+        <button class="btn btn-outline-primary ml-2" asp-page-handler="ExportAsExcel">Export as Excel</button>
     </form>
 </nav>
-<p>
-    <a asp-page="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                <a asp-page="./Index" asp-route-sortOrder="@Model.TitleSort">
-                    @Html.DisplayNameFor(model => model.Record[0].Title)
-                </a>
-            </th>
-            <th>
-                <a asp-page="./Index" asp-route-sortOrder="@Model.CreatedDateSort">
-                    @Html.DisplayNameFor(model => model.Record[0].CreatedDate)
-                </a>
-            </th>
-            <th>
-                <a asp-page="./Index" asp-route-sortOrder="@Model.EditedDateSort">
-                    @Html.DisplayNameFor(model => model.Record[0].EditedDate)
-                </a>
-            </th>
-            <th>
-                <a asp-page="./Index" asp-route-sortOrder="@Model.IsDoneSort">
-                    @Html.DisplayNameFor(model => model.Record[0].IsDone)
-                </a>
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.Record) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EditedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsDone)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
-            </td>
-        </tr>
+@if (Model.IsImportMode)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>CreatedDate</th>
+                <th>EditedDate</th>
+                <th>IsDone</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.RecordToImport)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreatedDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EditedDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsDone)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <form class="form-inline my-2 my-lg-0" method="post">
+        <button class="btn btn-outline-danger ml-2" asp-page-handler="CancelImport">Cancel</button>
+        <button class="btn btn-outline-primary ml-2" asp-page-handler="ConfirmImport">Confirm</button>
+    </form>
 }
-    </tbody>
-</table>
+else
+{
+    <p>
+        <a asp-page="Create">Create New</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    <a asp-page="./Index" asp-route-sortOrder="@Model.TitleSort">
+                        @Html.DisplayNameFor(model => model.Record[0].Title)
+                    </a>
+                </th>
+                <th>
+                    <a asp-page="./Index" asp-route-sortOrder="@Model.CreatedDateSort">
+                        @Html.DisplayNameFor(model => model.Record[0].CreatedDate)
+                    </a>
+                </th>
+                <th>
+                    <a asp-page="./Index" asp-route-sortOrder="@Model.EditedDateSort">
+                        @Html.DisplayNameFor(model => model.Record[0].EditedDate)
+                    </a>
+                </th>
+                <th>
+                    <a asp-page="./Index" asp-route-sortOrder="@Model.IsDoneSort">
+                        @Html.DisplayNameFor(model => model.Record[0].IsDone)
+                    </a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Record)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreatedDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EditedDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsDone)
+                    </td>
+                    <td>
+                        <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
+                        <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
+                        <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
