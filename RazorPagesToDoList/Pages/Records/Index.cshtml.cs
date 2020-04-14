@@ -41,6 +41,14 @@ namespace RazorPagesToDoList.Pages.Records
         public bool IsImportMode = false;
 
         [BindProperty]
+        [DataType(DataType.Date)]
+        public DateTime ImportFromDate { get; set; }
+
+        [BindProperty]
+        [DataType(DataType.Date)]
+        public DateTime ImportTillDate { get; set; }
+
+        [BindProperty]
         public BufferedSingleFileUploadDb FileUpload { get; set; }
 
         public async void OnGetAsync(string sortOrder)
@@ -154,6 +162,9 @@ namespace RazorPagesToDoList.Pages.Records
                     _cache1.Set(RecordsToImportCacheKey, RecordToImport);
 
                 }
+
+                ImportFromDate = DateTime.Now;
+                ImportTillDate = DateTime.Now;
             }
 
             return Page();
@@ -175,7 +186,10 @@ namespace RazorPagesToDoList.Pages.Records
 
             for (var i = 0; i < recordsToImport.Count; i++)
             {
-                _context.Record.Add(recordsToImport[i]);
+                if (recordsToImport[i].CreatedDate.CompareTo(ImportFromDate) != -1 && recordsToImport[i].CreatedDate.CompareTo(ImportTillDate) != 1)
+                {
+                    _context.Record.Add(recordsToImport[i]);
+                }
             }
 
             _context.SaveChanges();
