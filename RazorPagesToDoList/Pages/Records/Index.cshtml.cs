@@ -149,7 +149,17 @@ namespace RazorPagesToDoList.Pages.Records
 
                         if (j == 5)
                         {
-                            record.IsDone = Convert.ToBoolean(cellValue);
+                            try {
+                                bool isDone = Convert.ToBoolean(cellValue);
+                                record.IsDone = isDone;
+                            }
+                            catch
+                            {
+                                Console.WriteLine($"Failed to convert {cellValue} to boolean");
+
+                                Console.WriteLine("Using false as a fallback value for IsDone");
+                                record.IsDone = false;
+                            }
                         }
                     }
 
@@ -220,6 +230,19 @@ namespace RazorPagesToDoList.Pages.Records
             catch (FormatException)
             {
                 Console.WriteLine("{0} is not in the correct format.", dateStringSubStr);
+
+                DateTime today = DateTime.Today;
+                string dateName = isCreatedDate ? "Created date" : "Edited date";
+                Console.WriteLine($"Using today's date as a fallback value for {dateName}");
+                
+                if (isCreatedDate)
+                {
+                    record.CreatedDate = today;
+                }
+                else
+                {
+                    record.EditedDate = today;
+                }
             }
         }
 
